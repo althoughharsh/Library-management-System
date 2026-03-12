@@ -13,13 +13,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
 
 app.use('/books', booksRouter);
 
 
+  app.get('/', (req, res) => {
+  res.status(200).json({
+    message: '📚 Library Management System API',
+    status: 'Running',
+    endpoints: {
+      getAllBooks: 'GET /books',
+      addBook: 'POST /books',
+      getBookById: 'GET /books/:id',
+      updateBook: 'PUT /books/:id',
+      deleteBook: 'DELETE /books/:id',
+      searchBook: 'GET /books/search?title=xyz&author=xyz',
+      health: 'GET /health'
+    }
+  });
+});
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
@@ -53,3 +65,5 @@ mongoose
     console.error('Failed to connect to MongoDB:', err.message);
     process.exit(1);
   });
+
+ 
